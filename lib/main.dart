@@ -1,5 +1,5 @@
-import 'package:api_get_task/pages/pets_list_page.dart';
-import 'package:api_get_task/providers/pet_provider.dart';
+import 'package:api_get_task/pages/books_list_page.dart';
+import 'package:api_get_task/providers/book_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => PetslistPage(),
+      builder: (context, state) => BooksslistPage(),
     )
   ],
 );
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => PetProvider(),
+          create: (context) => BookProvider(),
         ),
       ],
       child: MaterialApp.router(
