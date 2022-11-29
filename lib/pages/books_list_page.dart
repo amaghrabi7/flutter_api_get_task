@@ -1,5 +1,6 @@
 import 'package:api_get_task/providers/book_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class BooksslistPage extends StatelessWidget {
@@ -12,9 +13,9 @@ class BooksslistPage extends StatelessWidget {
         title: (Text('Books List')),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.replay_outlined),
+        child: Icon(Icons.add),
         onPressed: () {
-          context.read<BookProvider>().loadBooks();
+          context.push('/add');
         },
       ),
       body: context.watch<BookProvider>().isLoading
@@ -30,9 +31,37 @@ class BooksslistPage extends StatelessWidget {
                   var book = bookProvider.books[index];
                   return ListTile(
                     title: Text(book.title),
-                    subtitle: Text('Age: ${book.price.toString()}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          book.description,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          'Price: ${book.price.toString()}',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
                     leading: Image.network(
                       book.image,
+                    ),
+                    trailing: Column(
+                      children: [
+                        InkWell(
+                          onTap: () =>
+                              context.read<BookProvider>().deleteBook(book.id),
+                          child: Icon(Icons.delete),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            context.push('/edit', extra: book);
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                      ],
                     ),
                   );
                 },
